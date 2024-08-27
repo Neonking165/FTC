@@ -66,13 +66,16 @@ public class RemoteDrive {
         rightTargetVelocity = rightVelocity;
 
     }
+
     public void NoMoreDrive(){
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         Drive(0,0);
     }
+
     public double GetLeftVelocity(){
         return leftTargetVelocity;
     }
+
     public double GetRightVelocity(){
         return rightTargetVelocity;
     }

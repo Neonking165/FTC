@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Drive.RemoteDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoTest;
 
-
 //teleop using externally declared subsystems, drives robot and actuates a servo
 @TeleOp(name="DriveTeleOp", group="Iterative OpMode")
 
@@ -24,9 +23,11 @@ public class DriveTeleOp extends OpMode {
         telemetry.addData("Status", "Initialised");
         telemetry.update();
     }
+
     /*
     @Override
     public void init_loop() {
+
     }
 
     @Override
@@ -34,6 +35,7 @@ public class DriveTeleOp extends OpMode {
 
     }
     */
+
     @Override
     public void loop() {
 
