@@ -16,15 +16,12 @@ public class PositionDrive {
     private DcMotor rightDrive;
 
 
-    private double maximumSpeed = 0.7;//keep low to reduce acceleration and therefore tyre slip
-    private double gearRatio = 15;//x:1
-    private double wheelDiameter = 15;//cm
-    private double ticksPerMotorRevolution = 15;
+    private double maximumSpeed = 0.65;//keep low to reduce acceleration and therefore tyre slip
+    private double gearRatio = 15.1147;//x:1
+    private double wheelDiameter = 9;//cm
+    private double ticksPerMotorRevolution = 28;
 
     private double TicksPerCentimeter;
-
-    private int leftTargetPosition;
-    private int rightTargetPosition;
 
     public PositionDrive(HardwareMap hardwareMap){
 
@@ -70,19 +67,21 @@ public class PositionDrive {
         int tickChangeLeft = (int)Math.round(leftDistanceCm * TicksPerCentimeter);
         int tickChangeRight = (int)Math.round(rightDistanceCm * TicksPerCentimeter);
 
-        leftTargetPosition += tickChangeLeft;
-        rightTargetPosition += tickChangeRight;
+        int leftTargetPosition = leftDrive.getCurrentPosition() + tickChangeLeft;
+        int rightTargetPosition = rightDrive.getCurrentPosition() + tickChangeRight;
 
         leftDrive.setTargetPosition(leftTargetPosition);
         rightDrive.setTargetPosition(rightTargetPosition);
 
         if (blocking){
-            if((leftDrive.getCurrentPosition() > leftDrive.getTargetPosition() - 5) && (leftDrive.getCurrentPosition() < leftDrive.getTargetPosition() + 5)){
-                if((rightDrive.getCurrentPosition() > rightDrive.getTargetPosition() - 5) && (rightDrive.getCurrentPosition() < rightDrive.getTargetPosition() + 5)){
-                    //both wheels are in reasonable range to target position wait small period and continue
-                    new Delay(100);
-                }
+            boolean rangeL = (leftDrive.getCurrentPosition() > leftDrive.getTargetPosition() - 5) && (leftDrive.getCurrentPosition() < leftDrive.getTargetPosition() + 5);
+            boolean rangeR = (rightDrive.getCurrentPosition() > rightDrive.getTargetPosition() - 5) && (rightDrive.getCurrentPosition() < rightDrive.getTargetPosition() + 5);
+            while(!rangeL && !rangeR){
+                rangeL = (leftDrive.getCurrentPosition() > leftDrive.getTargetPosition() - 5) && (leftDrive.getCurrentPosition() < leftDrive.getTargetPosition() + 5);
+                rangeR = (rightDrive.getCurrentPosition() > rightDrive.getTargetPosition() - 5) && (rightDrive.getCurrentPosition() < rightDrive.getTargetPosition() + 5);
+                new Delay(1);
             }
+            new Delay(100);
         }
     }
 
@@ -91,8 +90,8 @@ public class PositionDrive {
         leftDrive.setPower(maximumSpeed);
         rightDrive.setPower(maximumSpeed);
 
-        leftTargetPosition += leftTicks;
-        rightTargetPosition += rightTicks;
+        int leftTargetPosition = leftDrive.getCurrentPosition() + leftTicks;
+        int rightTargetPosition = rightDrive.getCurrentPosition() + rightTicks;
 
         leftDrive.setTargetPosition(leftTargetPosition);
         rightDrive.setTargetPosition(rightTargetPosition);
@@ -102,11 +101,8 @@ public class PositionDrive {
         leftDrive.setPower(maximumSpeed);
         rightDrive.setPower(maximumSpeed);
 
-        leftTargetPosition = leftPosition;
-        rightTargetPosition = rightPosition;
-
-        leftDrive.setTargetPosition(leftTargetPosition);
-        rightDrive.setTargetPosition(rightTargetPosition);
+        leftDrive.setTargetPosition(leftPosition);
+        rightDrive.setTargetPosition(rightPosition);
     }
 
     public void NoMoreDrive(){
@@ -121,10 +117,10 @@ public class PositionDrive {
     }
 
     public double GetLeftPosition(){
-        return leftTargetPosition;
+        return leftDrive.getCurrentPosition();
     }
 
     public double GetRightPosition(){
-        return rightTargetPosition;
+        return rightDrive.getCurrentPosition();
     }
 }
