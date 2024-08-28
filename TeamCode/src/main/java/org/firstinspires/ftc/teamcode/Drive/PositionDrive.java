@@ -74,18 +74,18 @@ public class PositionDrive {
         rightDrive.setTargetPosition(rightTargetPosition);
 
         if (blocking){
-            boolean rangeL = (leftDrive.getCurrentPosition() > leftDrive.getTargetPosition() - 5) && (leftDrive.getCurrentPosition() < leftDrive.getTargetPosition() + 5);
-            boolean rangeR = (rightDrive.getCurrentPosition() > rightDrive.getTargetPosition() - 5) && (rightDrive.getCurrentPosition() < rightDrive.getTargetPosition() + 5);
+            boolean rangeL = (leftDrive.getCurrentPosition() > leftDrive.getTargetPosition() - 3) && (leftDrive.getCurrentPosition() < leftDrive.getTargetPosition() + 3);
+            boolean rangeR = (rightDrive.getCurrentPosition() > rightDrive.getTargetPosition() - 3) && (rightDrive.getCurrentPosition() < rightDrive.getTargetPosition() + 3);
             while(!rangeL && !rangeR){
-                rangeL = (leftDrive.getCurrentPosition() > leftDrive.getTargetPosition() - 5) && (leftDrive.getCurrentPosition() < leftDrive.getTargetPosition() + 5);
-                rangeR = (rightDrive.getCurrentPosition() > rightDrive.getTargetPosition() - 5) && (rightDrive.getCurrentPosition() < rightDrive.getTargetPosition() + 5);
+                rangeL = (leftDrive.getCurrentPosition() > leftDrive.getTargetPosition() - 3) && (leftDrive.getCurrentPosition() < leftDrive.getTargetPosition() + 3);
+                rangeR = (rightDrive.getCurrentPosition() > rightDrive.getTargetPosition() - 3) && (rightDrive.getCurrentPosition() < rightDrive.getTargetPosition() + 3);
                 new Delay(1);
             }
             new Delay(100);
         }
     }
 
-    public void DriveTicks(int leftTicks, int rightTicks) {
+    public void DriveTicks(int leftTicks, int rightTicks, boolean blocking) {
 
         leftDrive.setPower(maximumSpeed);
         rightDrive.setPower(maximumSpeed);
@@ -95,6 +95,17 @@ public class PositionDrive {
 
         leftDrive.setTargetPosition(leftTargetPosition);
         rightDrive.setTargetPosition(rightTargetPosition);
+
+        if (blocking){
+            boolean rangeL = (leftDrive.getCurrentPosition() > leftDrive.getTargetPosition() - 3) && (leftDrive.getCurrentPosition() < leftDrive.getTargetPosition() + 3);
+            boolean rangeR = (rightDrive.getCurrentPosition() > rightDrive.getTargetPosition() - 3) && (rightDrive.getCurrentPosition() < rightDrive.getTargetPosition() + 3);
+            while(!rangeL && !rangeR){
+                rangeL = (leftDrive.getCurrentPosition() > leftDrive.getTargetPosition() - 3) && (leftDrive.getCurrentPosition() < leftDrive.getTargetPosition() + 3);
+                rangeR = (rightDrive.getCurrentPosition() > rightDrive.getTargetPosition() - 3) && (rightDrive.getCurrentPosition() < rightDrive.getTargetPosition() + 3);
+                new Delay(1);
+            }
+            new Delay(100);
+        }
     }
     public void SetPositionTicks(int leftPosition, int rightPosition) {
 
