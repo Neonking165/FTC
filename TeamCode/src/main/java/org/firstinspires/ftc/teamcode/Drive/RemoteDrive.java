@@ -20,8 +20,8 @@ public class RemoteDrive {
 
     public RemoteDrive(HardwareMap hardwareMap){
 
-        DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
-        DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
+        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -34,7 +34,7 @@ public class RemoteDrive {
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         Drive(0,0);
     }
@@ -73,10 +73,10 @@ public class RemoteDrive {
     }
 
     public double GetLeftVelocity(){
-        return leftTargetVelocity;
+        return leftDrive.getPower();
     }
 
     public double GetRightVelocity(){
-        return rightTargetVelocity;
+        return rightDrive.getPower();
     }
 }

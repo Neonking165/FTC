@@ -25,8 +25,8 @@ public class PositionDrive {
 
     public PositionDrive(HardwareMap hardwareMap){
 
-        DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
-        DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
+        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -39,7 +39,7 @@ public class PositionDrive {
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         double circumference = wheelDiameter * Math.PI;
         double TicksPerRevolution = ticksPerMotorRevolution * gearRatio;
