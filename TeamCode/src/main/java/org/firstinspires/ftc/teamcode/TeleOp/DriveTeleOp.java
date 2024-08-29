@@ -30,6 +30,7 @@ public class DriveTeleOp extends OpMode {
         telemetry.addData("Status", "Initialised");
         telemetry.update();
         time = new ElapsedTime();
+        time.reset();
 
         startTime = 0;
         endTime = 0;
@@ -49,7 +50,6 @@ public class DriveTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        
         endTime =  time.milliseconds();
         double frequency = 1 /  ((endTime - startTime) / 1000);
         telemetry.addData("Frequency", frequency + "Hz");
