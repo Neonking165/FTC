@@ -2,11 +2,9 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
+
 
 import org.firstinspires.ftc.teamcode.Drive.PositionDrive;
-import org.firstinspires.ftc.teamcode.Drive.RemoteDrive;
 
 //test auto make little manouver to test repeatability
 @Autonomous(name="TestAuto", group="Iterative OpMode")

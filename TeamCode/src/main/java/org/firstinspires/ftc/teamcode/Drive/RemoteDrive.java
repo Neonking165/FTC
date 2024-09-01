@@ -13,7 +13,7 @@ public class RemoteDrive {
     private DcMotor rightDrive;
 
 
-    private double maximumSpeed = 0.9;//dont put to 1 please, otherwise robot will drift
+    private double maximumSpeed = 0.85;//dont put to 1 please, otherwise robot will drift
 
     private double leftTargetVelocity;
     private double rightTargetVelocity;
@@ -60,7 +60,7 @@ public class RemoteDrive {
         rightVelocity = Range.clip(rightVelocity * maximumSpeed, -maximumSpeed, maximumSpeed);
 
         leftDrive.setPower(leftVelocity);
-        rightDrive.setPower(leftVelocity);
+        rightDrive.setPower(rightVelocity);
 
         leftTargetVelocity = leftVelocity;
         rightTargetVelocity = rightVelocity;
