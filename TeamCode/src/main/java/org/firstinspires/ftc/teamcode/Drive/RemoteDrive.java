@@ -23,8 +23,8 @@ public class RemoteDrive {
         leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
 
-        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         MotorConfigurationType motorConfigurationType = leftDrive.getMotorType().clone();
         motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
