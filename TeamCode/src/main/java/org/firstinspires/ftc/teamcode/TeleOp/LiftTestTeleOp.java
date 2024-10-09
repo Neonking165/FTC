@@ -28,10 +28,10 @@ public class LiftTestTeleOp extends OpMode {
 
 
     //288 ticks per rotation
-    private int pivotHighBaksetTicks = 169;//135 degrees
-    private int pivotCollectTicks = 306;//245 degrees
+    private int pivotHighBaksetTicks = 108;//135 degrees
+    private int pivotCollectTicks = 196;//245 degrees
 
-    private int pivotTargetPosition = 0;
+    private float pivotTargetPosition = 0;
 
     public void init() {
         tankDrive = new RemoteDrive(hardwareMap);
@@ -71,12 +71,6 @@ public class LiftTestTeleOp extends OpMode {
 
         tankDrive.Drive(x,y);
 
-
-        telemetry.addData("Status", "Running");
-        telemetry.addData("Drive Power", "Left: " + tankDrive.GetLeftVelocity() + "Right: " + tankDrive.GetRightVelocity());
-
-        telemetry.update();
-
         LinkageMotor.setPower(gamepad2.right_trigger);
 
         PivotMotor.setPower(1);
@@ -86,10 +80,16 @@ public class LiftTestTeleOp extends OpMode {
             if(pivotTargetPosition < 0){
                 pivotTargetPosition = 0;
             }
+            if(pivotTargetPosition > 200){
+                pivotTargetPosition = 200;
+            }
         }else if (gamepad2.dpad_up){
             pivotTargetPosition += (endTime - startTime) * 0.075;
             if(pivotTargetPosition < 0){
                 pivotTargetPosition = 0;
+            }
+            if(pivotTargetPosition > 200){
+                pivotTargetPosition = 200;
             }
         }else{
             if(gamepad2.left_trigger > 0.6){
@@ -104,7 +104,14 @@ public class LiftTestTeleOp extends OpMode {
             }
         }
 
-        PivotMotor.setTargetPosition(pivotTargetPosition);
+        PivotMotor.setTargetPosition(Math.round(pivotTargetPosition));
+
+        telemetry.addData("Status", "Running");
+        telemetry.addData("Drive Power", "Left: " + tankDrive.GetLeftVelocity() + "Right: " + tankDrive.GetRightVelocity());
+        telemetry.addData("Pivot Position", PivotMotor.getCurrentPosition() + " Ticks");
+        telemetry.update();
+
+
     }
 
     @Override
