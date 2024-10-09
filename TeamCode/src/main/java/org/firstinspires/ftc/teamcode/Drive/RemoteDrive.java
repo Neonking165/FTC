@@ -28,6 +28,7 @@ public class RemoteDrive {
 
         MotorConfigurationType motorConfigurationType = leftDrive.getMotorType().clone();
         motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
+
         leftDrive.setMotorType(motorConfigurationType);
         rightDrive.setMotorType(motorConfigurationType);
 
