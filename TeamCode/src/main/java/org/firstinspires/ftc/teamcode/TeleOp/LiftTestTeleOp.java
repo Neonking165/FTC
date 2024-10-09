@@ -50,8 +50,11 @@ public class LiftTestTeleOp extends OpMode {
         LinkageMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         LinkageMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
+
         PivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
         PivotMotor.setDirection(DcMotor.Direction.REVERSE);
+        PivotMotor.setTargetPosition(0);
+
         PivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         PivotMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
@@ -79,7 +82,10 @@ public class LiftTestTeleOp extends OpMode {
         PivotMotor.setPower(1);
 
         if (gamepad2.dpad_down){
-
+            pivotTargetPosition -= (endTime - startTime) * 0.075;
+            if(pivotTargetPosition < 0){
+                pivotTargetPosition = 0;
+            }
         }else if (gamepad2.dpad_up){
             pivotTargetPosition += (endTime - startTime) * 0.075;
             if(pivotTargetPosition < 0){
@@ -97,6 +103,8 @@ public class LiftTestTeleOp extends OpMode {
                 //home
             }
         }
+
+        PivotMotor.setTargetPosition(pivotTargetPosition);
     }
 
     @Override
