@@ -8,7 +8,6 @@ public class lift_subsystem {
     private final DcMotor lift_Motor;
     private int lift_up; // Define the field here
 
-    private int fineTuneTPS = 100;
 
 
     public lift_subsystem(HardwareMap hardwareMap){
@@ -17,13 +16,7 @@ public class lift_subsystem {
 
         lift_Motor.setDirection(DcMotor.Direction.REVERSE);
 
-        lift_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        lift_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
-        lift_Motor.setPower(maxSpeed);
-        lift_Motor.setTargetPosition(0);
 
     }
 
@@ -31,13 +24,21 @@ public class lift_subsystem {
 
     public void raise_lift() {
         lift_up = 2; // Set field value
+        lift_Motor.setPower(5); //max
+        //delay
+        lift_Motor.setPower(1); //sustain
+
     }
 
     public void lower_lift() {
         lift_up = 0; // Set field value
+        lift_Motor.setPower(-5); //max_reverse
+        // delay
+        lift_Motor.setPower(0);
     }
     public void half_lift() {
         lift_up =1; // Set field value
+        lift_Motor.setPower(2.5); //half power
     }
 
     public int liftIsUp() {
