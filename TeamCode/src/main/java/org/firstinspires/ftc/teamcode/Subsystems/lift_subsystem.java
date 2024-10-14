@@ -22,7 +22,7 @@ public class lift_subsystem {
 
 
 
-    
+
     public void raise_lift() {
         lift_up = 2; // Set field value
         lift_Motor.setPower(1); //max
