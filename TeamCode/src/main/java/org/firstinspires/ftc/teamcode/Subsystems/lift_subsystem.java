@@ -22,6 +22,7 @@ public class lift_subsystem {
 
 
 
+    
     public void raise_lift() {
         lift_up = 2; // Set field value
         lift_Motor.setPower(1); //max
@@ -30,15 +31,11 @@ public class lift_subsystem {
 
     public void lower_lift() {
         lift_up = 0; // Set field value
-        lift_Motor.setPower(-0.2); //max_reverse
+        lift_Motor.setPower(0); //max_reverse
     }
     public void half_lift() {
         lift_up =1; // Set field value
         lift_Motor.setPower(0.5); //half power
-    }
-    public void stop_lift() {
-        lift_up =4; // Set field value
-        lift_Motor.setPower(0); //half power
     }
 
     public int liftIsUp() {
