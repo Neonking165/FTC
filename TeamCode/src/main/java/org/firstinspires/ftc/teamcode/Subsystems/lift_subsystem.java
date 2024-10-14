@@ -15,9 +15,6 @@ public class lift_subsystem {
         lift_Motor = hardwareMap.get(DcMotor.class, "lift_motor");
 
         lift_Motor.setDirection(DcMotor.Direction.REVERSE);
-
-
-
     }
 
 

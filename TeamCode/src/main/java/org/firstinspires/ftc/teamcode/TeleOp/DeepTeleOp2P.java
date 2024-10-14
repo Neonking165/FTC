@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Drive.RemoteDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.pivot_subsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.lift_subsystem;
 
 @TeleOp(name="DeepTeleOp2P", group="Iterative OpMode")
 
@@ -14,7 +15,7 @@ public class DeepTeleOp2P extends OpMode {
 
     private RemoteDrive tankDrive;
     private pivot_subsystem pivot;
-
+    private lift_subsystem lift;
     private ElapsedTime time;
     private double startTime;
     private double endTime;
@@ -22,9 +23,9 @@ public class DeepTeleOp2P extends OpMode {
     public void init() {
         tankDrive = new RemoteDrive(hardwareMap);
         tankDrive.Drive(0,0);
-
         pivot = new pivot_subsystem(hardwareMap);
         pivot.stow();
+        lift_subsystem lift = new lift_subsystem(hardwareMap);
 
         telemetry.addData("Status", "Initialised");
         telemetry.update();
@@ -58,10 +59,20 @@ public class DeepTeleOp2P extends OpMode {
 
         //drive
         //left joystick is speed, right joystick is rotation
-        double x  =  gamepad1.right_stick_x;
+        double x = gamepad1.right_stick_x;
         double y = -gamepad1.left_stick_y;
 
         tankDrive.Drive(x,y);
+
+
+        //lift
+        if(gamepad2.right_trigger>0.6){
+            lift.raise_lift();
+        }
+        else{
+            lift.lower_lift();
+        }
+
 
         //pivot
         //left trigger or right trigger is basket, left bumper is specimen, A is intake, B is stow, up/down dpad is fine tune
