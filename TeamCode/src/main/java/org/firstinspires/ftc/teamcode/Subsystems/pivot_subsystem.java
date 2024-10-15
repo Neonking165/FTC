@@ -36,7 +36,7 @@ public class pivot_subsystem {
         pivotMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        pivotMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        pivotMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         pivotMotor.setPower(maxSpeed);
         pivotMotor.setTargetPosition(0);
