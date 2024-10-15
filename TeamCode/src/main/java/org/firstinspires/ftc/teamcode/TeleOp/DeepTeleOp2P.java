@@ -50,6 +50,7 @@ public class DeepTeleOp2P extends OpMode {
 
     @Override
     public void loop() {
+
         endTime =  time.milliseconds();
         double frequency = 1 /  ((endTime - startTime) / 1000);
         telemetry.addData("Frequency", frequency + "Hz");
@@ -81,7 +82,7 @@ public class DeepTeleOp2P extends OpMode {
         }
 
 
-        //pivot
+             //pivot
         //left trigger or right trigger is basket, left bumper is specimen, A is intake, B is stow, up/down dpad is fine tune
         if(gamepad2.b){
             //stow pivot
@@ -108,7 +109,6 @@ public class DeepTeleOp2P extends OpMode {
                 pivot.stow();
             }
         }
-
         //elevator
         //hold right trigger or right bumper to raise
 
