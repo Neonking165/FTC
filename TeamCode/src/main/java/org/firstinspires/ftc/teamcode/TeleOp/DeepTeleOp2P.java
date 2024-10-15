@@ -50,7 +50,6 @@ public class DeepTeleOp2P extends OpMode {
 
     @Override
     public void loop() {
-
         endTime =  time.milliseconds();
         double frequency = 1 /  ((endTime - startTime) / 1000);
         telemetry.addData("Frequency", frequency + "Hz");
@@ -61,7 +60,15 @@ public class DeepTeleOp2P extends OpMode {
         //left joystick is speed, right joystick is rotation
         double x = gamepad1.right_stick_x;
         double y = -gamepad1.left_stick_y;
+        if(gamepad1.left_trigger>0.6){
+            tankDrive.Drive((x/2),(y/2));
 
+        }
+        else{
+            tankDrive.Drive((x),(y));
+
+
+        }
         tankDrive.Drive(x,y);
 
 
