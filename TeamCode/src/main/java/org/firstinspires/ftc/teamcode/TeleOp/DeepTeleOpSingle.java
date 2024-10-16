@@ -80,9 +80,9 @@ public class DeepTeleOpSingle extends OpMode {
         } else {
             //assume fine-tune mode and check for lowering slides
             if(gamepad2.dpad_up || gamepad1.dpad_up){
-                pivot.fineTune(1, (endTime - startTime));
+                pivot.fineTune(30, (endTime - startTime));
             } else if (gamepad2.dpad_down || gamepad1.dpad_down) {
-                pivot.fineTune(-1, (endTime - startTime));
+                pivot.fineTune(-30, (endTime - startTime));
             }
 
             if(pivot.position() == 2 && gamepad2.right_trigger < 0.5 && gamepad1.right_trigger < 0.5){

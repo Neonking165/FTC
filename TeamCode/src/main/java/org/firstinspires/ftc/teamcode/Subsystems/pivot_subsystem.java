@@ -41,6 +41,7 @@ public class pivot_subsystem {
         pivotMotor.setPower(maxSpeed);
         pivotMotor.setTargetPosition(0);
 
+
     }
 
     public int position(){
