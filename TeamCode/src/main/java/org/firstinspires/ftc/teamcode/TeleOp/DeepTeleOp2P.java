@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Drive.RemoteDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.pivot_subsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.lift_subsystem;
-
+//gamepad 1 driver
+//gamepad 2 subsysems
 @TeleOp(name="DeepTeleOp2P", group="Iterative OpMode")
 
 //full robot teleop controlled by two users
@@ -108,6 +109,7 @@ public class DeepTeleOp2P extends OpMode {
                 //user is lowering from basket, go to rest position
                 pivot.stow();
             }
+
         }
         //elevator
         //hold right trigger or right bumper to raise
