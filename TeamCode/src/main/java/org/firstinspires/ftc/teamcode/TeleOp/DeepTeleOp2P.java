@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Drive.RemoteDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.pivot_subsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.lift_subsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.claw_subsystem;
 //gamepad 1 driver
 //gamepad 2 subsysems
 @TeleOp(name="DeepTeleOp2P", group="Iterative OpMode")
@@ -16,6 +17,7 @@ public class DeepTeleOp2P extends OpMode {
 
     private RemoteDrive tankDrive;
     private pivot_subsystem pivot;
+    private claw_subsystem claw;
     private lift_subsystem lift;
     private ElapsedTime time;
     private double startTime;
@@ -25,6 +27,7 @@ public class DeepTeleOp2P extends OpMode {
         tankDrive = new RemoteDrive(hardwareMap);
         tankDrive.Drive(0,0);
         pivot = new pivot_subsystem(hardwareMap);
+        claw = new claw_subsystem(hardwareMap);
         pivot.stow();
         lift_subsystem lift = new lift_subsystem(hardwareMap);
 
@@ -122,6 +125,15 @@ public class DeepTeleOp2P extends OpMode {
             }
 
         }
+        //claw
+        if(gamepad2.x || gamepad1.x ){
+            claw.close_claw();
+        }
+        if(gamepad2.y || gamepad1.y ){
+            claw.open_claw();
+        }
+
+
         //elevator
         //hold right trigger or right bumper to raise
 
