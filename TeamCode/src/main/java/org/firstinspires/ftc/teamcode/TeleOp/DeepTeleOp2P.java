@@ -20,7 +20,7 @@ public class DeepTeleOp2P extends OpMode {
     private ElapsedTime time;
     private double startTime;
     private double endTime;
-
+    private double tLowerSlides = 0;
     public void init() {
         tankDrive = new RemoteDrive(hardwareMap);
         tankDrive.Drive(0,0);
@@ -77,9 +77,20 @@ public class DeepTeleOp2P extends OpMode {
         //lift
         if(gamepad2.right_trigger>0.6){
             lift.raise_lift();
+            tLowerSlides = 0;
         }
         else{
-            lift.lower_lift();
+            pivot.stow();
+            //then lower lift
+            if(tLowerSlides == 0){
+                tLowerSlides = time.milliseconds() + 500;
+            }else{
+                if(time.milliseconds() > tLowerSlides){
+                    lift.lower_lift();
+                    tLowerSlides = 0;
+                }
+            }
+
         }
 
 
