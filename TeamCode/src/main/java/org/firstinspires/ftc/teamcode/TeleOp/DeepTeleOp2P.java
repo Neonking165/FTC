@@ -29,6 +29,7 @@ public class DeepTeleOp2P extends OpMode {
         pivot = new pivot_subsystem(hardwareMap);
         claw = new claw_subsystem(hardwareMap);
         pivot.stow();
+        claw.close_claw();
         lift_subsystem lift = new lift_subsystem(hardwareMap);
 
         telemetry.addData("Status", "Initialised");
@@ -84,6 +85,7 @@ public class DeepTeleOp2P extends OpMode {
         }
         else{
             pivot.stow();
+            claw.close_claw();
             //then lower lift
             if(tLowerSlides == 0){
                 tLowerSlides = time.milliseconds() + 500;
@@ -102,6 +104,7 @@ public class DeepTeleOp2P extends OpMode {
         if(gamepad2.b){
             //stow pivot
             pivot.stow();
+            claw.close_claw();
         } else if (gamepad2.a) {
             //intake pivot position
             pivot.intake();
@@ -122,6 +125,7 @@ public class DeepTeleOp2P extends OpMode {
             if(pivot.position() == 2 && gamepad2.right_trigger < 0.5){
                 //user is lowering from basket, go to rest position
                 pivot.stow();
+                claw.close_claw();
             }
 
         }
