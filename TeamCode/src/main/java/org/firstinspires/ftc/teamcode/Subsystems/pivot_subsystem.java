@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
@@ -31,7 +32,7 @@ public class pivot_subsystem {
 
         pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
 
-        pivotMotor.setDirection(DcMotor.Direction.REVERSE);
+        pivotMotor.setDirection(DcMotor.Direction.FORWARD);
 
         pivotMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
