@@ -66,7 +66,7 @@ public class DeepTeleOp2P extends OpMode {
         //left joystick is speed, right joystick is rotation
         double x = gamepad1.right_stick_x;
         double y = -gamepad1.left_stick_y;
-        if(gamepad1.left_trigger>0.6){
+        if(gamepad1.b){
             tankDrive.Drive((x/2),(y/2));
 
         }
