@@ -16,7 +16,7 @@ public class pivot_subsystem {
 
     //core hex is 288 ticks per revolution
     private int IntakeTickPosition = 0;
-    private int BasketTickPosition = 0;
+    private int BasketTickPosition = 100;
     private int SpecimenTickPosition = 0;
 
     //stow is pos 0
