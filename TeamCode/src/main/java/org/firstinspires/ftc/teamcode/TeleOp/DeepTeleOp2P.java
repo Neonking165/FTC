@@ -28,7 +28,7 @@ public class DeepTeleOp2P extends OpMode {
         claw = new claw_subsystem(hardwareMap);
         pivot.stow();
         claw.close_claw();
-        lift_subsystem lift = new lift_subsystem(hardwareMap);
+       lift = new lift_subsystem(hardwareMap);
 
         telemetry.addData("Status", "Initialised");
         telemetry.update();
