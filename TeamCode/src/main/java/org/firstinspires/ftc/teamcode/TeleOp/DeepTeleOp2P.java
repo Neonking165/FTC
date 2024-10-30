@@ -11,10 +11,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.claw_subsystem;
 //gamepad 1 driver
 //gamepad 2 subsysems
 @TeleOp(name="DeepTeleOp2P_testing", group="Iterative OpMode")
-
 //full robot teleop controlled by two users
 public class DeepTeleOp2P extends OpMode {
-
     private RemoteDrive tankDrive;
     private pivot_subsystem pivot;
     private claw_subsystem claw;
