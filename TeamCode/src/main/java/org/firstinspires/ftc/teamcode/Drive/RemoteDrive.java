@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Drive;
 
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -9,8 +10,8 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 public class RemoteDrive {
 
     //private HardwareMap hardwareMap;
-    private DcMotor leftDrive;
-    private DcMotor rightDrive;
+    private DcMotorEx leftDrive;
+    private DcMotorEx rightDrive;
 
 
     private double maximumSpeed = 0.85;//dont put to 1 please, otherwise robot will drift
@@ -20,11 +21,11 @@ public class RemoteDrive {
 
     public RemoteDrive(HardwareMap hardwareMap){
 
-        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        leftDrive = hardwareMap.get(DcMotorEx.class, "left_drive");
+        rightDrive = hardwareMap.get(DcMotorEx.class, "right_drive");
 
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive.setDirection(DcMotorEx.Direction.FORWARD);
+        rightDrive.setDirection(DcMotorEx.Direction.REVERSE);
 
         MotorConfigurationType motorConfigurationType = leftDrive.getMotorType().clone();
         motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
@@ -32,20 +33,20 @@ public class RemoteDrive {
         leftDrive.setMotorType(motorConfigurationType);
         rightDrive.setMotorType(motorConfigurationType);
 
-        setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-        setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
         Drive(0,0);
     }
 
-    public void setMode(DcMotor.RunMode runMode) {
+    public void setMode(DcMotorEx.RunMode runMode) {
         leftDrive.setMode(runMode);
         rightDrive.setMode(runMode);
     }
 
-    public void setZeroPowerBehavior(DcMotor.ZeroPowerBehavior zeroPowerBehavior) {
+    public void setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior zeroPowerBehavior) {
         leftDrive.setZeroPowerBehavior(zeroPowerBehavior);
         rightDrive.setZeroPowerBehavior(zeroPowerBehavior);
     }
@@ -60,8 +61,8 @@ public class RemoteDrive {
         leftVelocity = Range.clip(leftVelocity * maximumSpeed, -maximumSpeed, maximumSpeed);
         rightVelocity = Range.clip(rightVelocity * maximumSpeed, -maximumSpeed, maximumSpeed);
 
-        leftDrive.setPower(leftVelocity);
-        rightDrive.setPower(rightVelocity);
+        leftDrive.setVelocity(leftVelocity);
+        rightDrive.setVelocity(rightVelocity);
 
         leftTargetVelocity = leftVelocity;
         rightTargetVelocity = rightVelocity;
@@ -69,7 +70,7 @@ public class RemoteDrive {
     }
 
     public void NoMoreDrive(){
-        setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         Drive(0,0);
     }
 

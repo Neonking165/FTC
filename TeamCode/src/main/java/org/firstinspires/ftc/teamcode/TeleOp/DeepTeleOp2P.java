@@ -55,9 +55,11 @@ public class DeepTeleOp2P extends OpMode {
 
     }
     */
+
     String operation_type = "operating";
     String pivot_type = "operating";
     String error_type = "erroring";
+
     @Override
     public void loop() {
         int pivotChangeCount = 0;
@@ -103,6 +105,9 @@ public class DeepTeleOp2P extends OpMode {
                     //set to -1 to stop looping and only run pivot stow once
                 }
             }
+        }
+        if(gamepad2.right_bumper|| gamepad1.right_bumper){
+            lift.raise_lift();
         }
 
 
