@@ -23,12 +23,12 @@ public class claw_subsystem {
     }
 
     public void open_claw() {
-        claw_servo.setPosition(0.5);
+        claw_servo.setPosition(0);
         claw_open = true; // Set field value
     }
 
     public void close_claw() {
-        claw_servo.setPosition(0);
+        claw_servo.setPosition(0.5);
         claw_open = false; // Set field value
     }
 
