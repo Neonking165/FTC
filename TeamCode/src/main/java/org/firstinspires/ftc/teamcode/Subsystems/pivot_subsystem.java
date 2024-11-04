@@ -57,6 +57,7 @@ public class pivot_subsystem {
     }
 
     public void stow(){
+        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if(PivotPosition != 0){
             PivotTicksPosition = 0;
             pivotMotor.setTargetPosition(Math.round(PivotTicksPosition));
@@ -64,6 +65,7 @@ public class pivot_subsystem {
         }
     }
     public void intake(){
+        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if(PivotPosition != 1){
             PivotTicksPosition = IntakeTickPosition;
             pivotMotor.setTargetPosition(Math.round(PivotTicksPosition));
@@ -71,6 +73,7 @@ public class pivot_subsystem {
         }
     }
     public void basket(){
+        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if(PivotPosition != 2){
             PivotTicksPosition = BasketTickPosition;
             pivotMotor.setTargetPosition(Math.round(PivotTicksPosition));
@@ -78,6 +81,7 @@ public class pivot_subsystem {
         }
     }
     public void specimen(){
+        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if(PivotPosition != 3){
             PivotTicksPosition = SpecimenTickPosition;
             pivotMotor.setTargetPosition(Math.round(PivotTicksPosition));
@@ -85,10 +89,11 @@ public class pivot_subsystem {
         }
     }
 
-    public void fineTune(float speed, double deltaTimeMs){
+    public void fineTune(float speed){
         PivotPosition = 4;
-        PivotTicksPosition += (speed * deltaTimeMs * (fineTuneTPS / 1000));
-        pivotMotor.setTargetPosition(Math.round(PivotTicksPosition));
+        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        pivotMotor.setPower(speed);
+        PivotTicksPosition = pivotMotor.getCurrentPosition();
     }
 
 }

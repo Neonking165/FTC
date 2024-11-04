@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.claw_subsystem;
 @TeleOp(name="DeepTeleOp2P_testing", group="Iterative OpMode")
 //full robot teleop controlled by two users
 public class DeepTeleOp2P extends OpMode {
+
     private RemoteDrive tankDrive;
     private pivot_subsystem pivot;
     private claw_subsystem claw;
@@ -21,6 +22,7 @@ public class DeepTeleOp2P extends OpMode {
     private double startTime;
     private double endTime;
     private double tLowerSlides = 0;
+
     public void init() {
         tankDrive = new RemoteDrive(hardwareMap);
         tankDrive.Drive(0,0);
@@ -28,7 +30,7 @@ public class DeepTeleOp2P extends OpMode {
         claw = new claw_subsystem(hardwareMap);
         pivot.stow();
         claw.close_claw();
-       lift = new lift_subsystem(hardwareMap);
+        lift = new lift_subsystem(hardwareMap);
 
         telemetry.addData("Status", "Initialised");
         telemetry.update();
@@ -64,19 +66,16 @@ public class DeepTeleOp2P extends OpMode {
         //left joystick is speed, right joystick is rotation
         double x = gamepad1.right_stick_x;
         double y = -gamepad1.left_stick_y;
+
         if(gamepad1.right_bumper || gamepad2.right_bumper) {
             tankDrive.Drive((x/4),(y/4));
         }
         else{
             tankDrive.Drive((x),(y));
-
-
         }
-        tankDrive.Drive(x,y);
-
 
         //lift
-        if(gamepad2.right_trigger>0.6){
+        if(gamepad2.right_trigger > 0.6 || gamepad1.right_trigger > 0.6){
             lift.raise_lift();
             tLowerSlides = 0;
         }
@@ -85,41 +84,40 @@ public class DeepTeleOp2P extends OpMode {
             claw.close_claw();
             //then lower lift
             if(tLowerSlides == 0){
-                tLowerSlides = time.milliseconds() + 500;
+                tLowerSlides = time.milliseconds() + 300;
             }else{
                 if(time.milliseconds() > tLowerSlides){
                     lift.lower_lift();
                     tLowerSlides = 0;
                 }
             }
-
         }
 
 
              //pivot
         //left trigger or right trigger is basket, left bumper is specimen, A is intake, B is stow, up/down dpad is fine tune
-        if(gamepad2.b){
+        if(gamepad2.b || gamepad1.b){
             //stow pivot
             pivot.stow();
             claw.close_claw();
-        } else if (gamepad2.a) {
+        } else if (gamepad2.a || gamepad1.a) {
             //intake pivot position
             pivot.intake();
-        } else if (gamepad2.left_trigger > 0.8 || gamepad2.right_trigger > 0.8){
+        } else if (gamepad2.left_trigger > 0.8 || gamepad1.right_trigger > 0.8){
             //basket pivot position
             pivot.basket();
-        } else if (gamepad2.left_bumper){
+        } else if (gamepad2.left_bumper || gamepad1.left_bumper){
             //specimen pivot position
             pivot.specimen();
         } else {
             //assume fine-tune mode and check for lowering slides
-            if(gamepad2.dpad_up){
-                pivot.fineTune(30, (endTime - startTime));
-            } else if (gamepad2.dpad_down) {
-                pivot.fineTune(-30, (endTime - startTime));
+            if(gamepad2.dpad_up || gamepad1.dpad_up){
+                pivot.fineTune(0.3f);
+            } else if (gamepad2.dpad_down || gamepad1.dpad_down) {
+                pivot.fineTune(-0.3f);
             }
 
-            if(pivot.position() == 2 && gamepad2.right_trigger < 0.5){
+            if(pivot.position() == 2 && (gamepad2.right_trigger < 0.5 || gamepad1.right_trigger < 0.5)){
                 //user is lowering from basket, go to rest position
                 pivot.stow();
                 claw.close_claw();
@@ -129,11 +127,9 @@ public class DeepTeleOp2P extends OpMode {
         //claw
         if(gamepad2.x || gamepad1.x ){
             claw.close_claw();
-        }
-        if(gamepad2.y || gamepad1.y ){
+        } else if(gamepad2.y || gamepad1.y ){
             claw.open_claw();
         }
-
 
         //elevator
         //hold right trigger or right bumper to raise
