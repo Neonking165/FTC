@@ -41,6 +41,7 @@ public class DeepTeleOp2P extends OpMode {
 
         startTime = 0;
         endTime = 0;
+
     }
 
     /*
@@ -59,6 +60,7 @@ public class DeepTeleOp2P extends OpMode {
     String error_type = "erroring";
     @Override
     public void loop() {
+        int pivotChangeCount = 0;
         endTime =  time.milliseconds();
         double frequency = 1 /  ((endTime - startTime) / 1000);
         telemetry.addData("Frequency", frequency + "Hz");
@@ -80,25 +82,31 @@ public class DeepTeleOp2P extends OpMode {
         //lift
         if(gamepad2.right_trigger > 0.6 || gamepad1.right_trigger > 0.6){
             lift.raise_lift();
+            pivot.basket();
             tLowerSlides = 0;
+            pivotChangeCount++;
         }
         else{
-            pivot.stow();
-            pivot_type="stow";
             //then lower lift
             if(tLowerSlides == 0){
-                tLowerSlides = time.milliseconds() + 300;
+                pivot.stow();
+                claw.open_claw();
+                pivot_type="stow";
+                tLowerSlides = time.milliseconds() + 800;
+                pivotChangeCount++;
             }else{
                 if(time.milliseconds() > tLowerSlides){
                     //claw.close_claw();
+                    claw.close_claw();
                     lift.lower_lift();
-                    tLowerSlides = 0;
+                    tLowerSlides = -1;
+                    //set to -1 to stop looping and only run pivot stow once
                 }
             }
         }
 
 
-             //pivot
+        //pivot
         //left trigger or right trigger is basket, left bumper is specimen, A is intake, B is stow, up/down dpad is fine tune
         if(gamepad2.b || gamepad1.b){
             //stow pivot
@@ -106,33 +114,35 @@ public class DeepTeleOp2P extends OpMode {
             pivot_type="stow";
             claw.close_claw();
             operation_type="close";
+            pivotChangeCount++;
         } else if (gamepad2.a || gamepad1.a) {
             //intake pivot position
             pivot.intake();
-        } else if (gamepad2.left_trigger > 0.8 || gamepad1.right_trigger > 0.8){
-            //basket pivot position
-            pivot.basket();
-            pivot_type="stow";
+            pivotChangeCount++;
         } else if (gamepad2.left_bumper || gamepad1.left_bumper){
             //specimen pivot position
             pivot.specimen();
+            pivotChangeCount++;
         } else {
             //assume fine-tune mode and check for lowering slides
-            if(gamepad2.dpad_up || gamepad1.dpad_up){
-                pivot.fineTune(0.3f);
+            if (gamepad2.dpad_up || gamepad1.dpad_up) {
+                pivot.fineTune(0.4f);
+                pivotChangeCount++;
             } else if (gamepad2.dpad_down || gamepad1.dpad_down) {
-                pivot.fineTune(-0.3f);
+                pivot.fineTune(-0.4f);
+                pivotChangeCount++;
             }
         }
-        pivot.commit();
+
         //claw
         if(gamepad2.x || gamepad1.x ){
             claw.close_claw();
             operation_type="close";
+            pivotChangeCount++;
         } else if(gamepad2.y || gamepad1.y ){
             claw.open_claw();
             operation_type="open";
-
+            pivotChangeCount++;
         }
 
         //elevator
@@ -144,7 +154,7 @@ public class DeepTeleOp2P extends OpMode {
         telemetry.addData("testing:",operation_type);
         telemetry.addData("pivot_type:",pivot_type);
         telemetry.addData("Errors:",error_type);
-        telemetry.addData("Errors:",error_type);
+        telemetry.addData("PivotChangesThisFrame:", pivotChangeCount);
 
         telemetry.update();
     }

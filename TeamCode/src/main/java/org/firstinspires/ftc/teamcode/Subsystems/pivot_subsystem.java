@@ -2,13 +2,14 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 public class pivot_subsystem {
 
-    private DcMotor pivotMotor;
+    private DcMotorEx pivotMotor;
 
     private float maxSpeed = 1;
 
@@ -31,7 +32,7 @@ public class pivot_subsystem {
 
     public pivot_subsystem(HardwareMap hardwareMap){
 
-        pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
+        pivotMotor = hardwareMap.get(DcMotorEx.class, "pivot_motor");
 
         pivotMotor.setDirection(DcMotor.Direction.FORWARD);
 
@@ -45,7 +46,6 @@ public class pivot_subsystem {
         pivotMotor.setPower(maxSpeed);
         pivotMotor.setTargetPosition(0);
 
-
     }
 
     public int position(){
@@ -57,45 +57,46 @@ public class pivot_subsystem {
     }
 
     public void stow(){
-        //pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if(PivotPosition != 0){
             PivotTicksPosition = 0;
-
+            pivotMotor.setTargetPosition(PivotTicksPosition);
             PivotPosition = 0;
         }
     }
+
     public void intake(){
-        //pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if(PivotPosition != 1){
             PivotTicksPosition = IntakeTickPosition;
-
+            pivotMotor.setTargetPosition(PivotTicksPosition);
             PivotPosition = 1;
         }
     }
+
     public void basket(){
-        //pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if(PivotPosition != 2){
             PivotTicksPosition = BasketTickPosition;
-
+            pivotMotor.setTargetPosition(PivotTicksPosition);
             PivotPosition = 2;
         }
     }
+
     public void specimen(){
-        //pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if(PivotPosition != 3){
             PivotTicksPosition = SpecimenTickPosition;
-
+            pivotMotor.setTargetPosition(PivotTicksPosition);
             PivotPosition = 3;
+
         }
-    }
-    public void commit(){
-        pivotMotor.setTargetPosition(PivotTicksPosition);
     }
 
     public void fineTune(float speed){
         PivotPosition = 4;
-        //pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        pivotMotor.setPower(speed);
+        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        pivotMotor.setVelocity(speed);
         PivotTicksPosition = pivotMotor.getCurrentPosition();
     }
 

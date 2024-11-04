@@ -7,9 +7,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 public class lift_subsystem {
+
     private final DcMotor lift_Motor;
     private int lift_up; // Define the field here
-
+    private int liftUpTicks = 300;//(300 assuming motor is 1680 per rev )tick threshold to determine if slides up and reduce motor power
 
 
     public lift_subsystem(HardwareMap hardwareMap){
@@ -17,7 +18,6 @@ public class lift_subsystem {
         lift_Motor = hardwareMap.get(DcMotor.class, "lift_motor");
 
         lift_Motor.setDirection(DcMotor.Direction.REVERSE);
-
     }
 
 
@@ -25,7 +25,12 @@ public class lift_subsystem {
 
     public void raise_lift() {
         lift_up = 2; // Set field value
-        lift_Motor.setPower(1); //max
+        if(lift_Motor.getCurrentPosition() < liftUpTicks){
+            lift_Motor.setPower(1); //max force to raise lift
+
+        }else{
+            lift_Motor.setPower(0.5);//reduce force as lift is raised to save power;
+        }
 
     }
 
