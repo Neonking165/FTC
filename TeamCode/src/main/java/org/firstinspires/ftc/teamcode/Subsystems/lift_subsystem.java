@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 
 public class lift_subsystem {
     private final DcMotor lift_Motor;
@@ -15,6 +17,7 @@ public class lift_subsystem {
         lift_Motor = hardwareMap.get(DcMotor.class, "lift_motor");
 
         lift_Motor.setDirection(DcMotor.Direction.REVERSE);
+
     }
 
 

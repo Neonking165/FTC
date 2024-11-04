@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
@@ -13,9 +15,9 @@ public class pivot_subsystem {
     private int fineTuneTPS = 100;
 
     //core hex is 288 ticks per revolution
-    private int IntakeTickPosition = 0;
-    private int BasketTickPosition = 0;
-    private int SpecimenTickPosition = 0;
+    private int IntakeTickPosition = -3700;
+    private int BasketTickPosition = -1960;
+    private int SpecimenTickPosition = -2780;
 
     //stow is pos 0
     //intake is pos 1
@@ -31,9 +33,11 @@ public class pivot_subsystem {
 
         pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
 
-        pivotMotor.setDirection(DcMotor.Direction.REVERSE);
+        pivotMotor.setDirection(DcMotor.Direction.FORWARD);
 
         pivotMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pivotMotor.setTargetPosition(0);
+
         pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         pivotMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

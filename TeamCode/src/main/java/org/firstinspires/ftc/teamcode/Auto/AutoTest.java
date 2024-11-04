@@ -19,11 +19,6 @@ public class AutoTest extends OpMode {
     @Override
     public void start() {
         tankDrive.DriveCm(20,20, true);
-        tankDrive.DriveCm(30,-30, true);
-        tankDrive.DriveCm(10,10, true);
-        tankDrive.DriveCm(-10,-10, true);
-        tankDrive.DriveCm(-30,30, true);
-        tankDrive.DriveCm(-20,-20, true);
         tankDrive.Brake();
     }
     @Override

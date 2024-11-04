@@ -7,25 +7,28 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Drive.RemoteDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.pivot_subsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.lift_subsystem;
-
-@TeleOp(name="DeepTeleOp2P", group="Iterative OpMode")
-
+import org.firstinspires.ftc.teamcode.Subsystems.claw_subsystem;
+//gamepad 1 driver
+//gamepad 2 subsysems
+@TeleOp(name="DeepTeleOp2P_testing", group="Iterative OpMode")
 //full robot teleop controlled by two users
 public class DeepTeleOp2P extends OpMode {
-
     private RemoteDrive tankDrive;
     private pivot_subsystem pivot;
+    private claw_subsystem claw;
     private lift_subsystem lift;
     private ElapsedTime time;
     private double startTime;
     private double endTime;
-
+    private double tLowerSlides = 0;
     public void init() {
         tankDrive = new RemoteDrive(hardwareMap);
         tankDrive.Drive(0,0);
         pivot = new pivot_subsystem(hardwareMap);
+        claw = new claw_subsystem(hardwareMap);
         pivot.stow();
-        lift_subsystem lift = new lift_subsystem(hardwareMap);
+        claw.close_claw();
+       lift = new lift_subsystem(hardwareMap);
 
         telemetry.addData("Status", "Initialised");
         telemetry.update();
@@ -61,9 +64,8 @@ public class DeepTeleOp2P extends OpMode {
         //left joystick is speed, right joystick is rotation
         double x = gamepad1.right_stick_x;
         double y = -gamepad1.left_stick_y;
-        if(gamepad1.left_trigger>0.6){
-            tankDrive.Drive((x/2),(y/2));
-
+        if(gamepad1.right_bumper || gamepad2.right_bumper) {
+            tankDrive.Drive((x/4),(y/4));
         }
         else{
             tankDrive.Drive((x),(y));
@@ -76,9 +78,21 @@ public class DeepTeleOp2P extends OpMode {
         //lift
         if(gamepad2.right_trigger>0.6){
             lift.raise_lift();
+            tLowerSlides = 0;
         }
         else{
-            lift.lower_lift();
+            pivot.stow();
+            claw.close_claw();
+            //then lower lift
+            if(tLowerSlides == 0){
+                tLowerSlides = time.milliseconds() + 500;
+            }else{
+                if(time.milliseconds() > tLowerSlides){
+                    lift.lower_lift();
+                    tLowerSlides = 0;
+                }
+            }
+
         }
 
 
@@ -87,6 +101,7 @@ public class DeepTeleOp2P extends OpMode {
         if(gamepad2.b){
             //stow pivot
             pivot.stow();
+            claw.close_claw();
         } else if (gamepad2.a) {
             //intake pivot position
             pivot.intake();
@@ -107,8 +122,19 @@ public class DeepTeleOp2P extends OpMode {
             if(pivot.position() == 2 && gamepad2.right_trigger < 0.5){
                 //user is lowering from basket, go to rest position
                 pivot.stow();
+                claw.close_claw();
             }
+
         }
+        //claw
+        if(gamepad2.x || gamepad1.x ){
+            claw.close_claw();
+        }
+        if(gamepad2.y || gamepad1.y ){
+            claw.open_claw();
+        }
+
+
         //elevator
         //hold right trigger or right bumper to raise
 
