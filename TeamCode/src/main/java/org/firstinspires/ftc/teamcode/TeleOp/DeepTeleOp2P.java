@@ -22,6 +22,8 @@ public class DeepTeleOp2P extends OpMode {
     private double startTime;
     private double endTime;
     private double tLowerSlides = 0;
+    private boolean prevClawButton = false;
+    private boolean GP1Control = false;
 
     public void init() {
         tankDrive = new RemoteDrive(hardwareMap);
@@ -82,7 +84,7 @@ public class DeepTeleOp2P extends OpMode {
         }
 
         //lift
-        if(gamepad2.right_trigger > 0.6 || gamepad1.right_trigger > 0.6){
+        if(gamepad2.right_trigger > 0.6 || (gamepad1.right_trigger > 0.6 && GP1Control)){
             lift.raise_lift();
             pivot.basket();
             tLowerSlides = 0;
@@ -106,49 +108,48 @@ public class DeepTeleOp2P extends OpMode {
                 }
             }
         }
-        if(gamepad2.right_bumper|| gamepad1.right_bumper){
+        if(gamepad2.right_bumper|| (gamepad1.right_bumper && GP1Control)){
             lift.raise_lift();
         }
 
 
         //pivot
         //left trigger or right trigger is basket, left bumper is specimen, A is intake, B is stow, up/down dpad is fine tune
-        if(gamepad2.b || gamepad1.b){
+        if(gamepad2.b || (gamepad1.b&& GP1Control)){
             //stow pivot
             pivot.stow();
             pivot_type="stow";
             claw.close_claw();
             operation_type="close";
             pivotChangeCount++;
-        } else if (gamepad2.a || gamepad1.a) {
+        } else if (gamepad2.left_trigger > 0.6 || (gamepad1.left_trigger > 0.6 && GP1Control)) {
             //intake pivot position
             pivot.intake();
             pivotChangeCount++;
-        } else if (gamepad2.left_bumper || gamepad1.left_bumper){
+        } else if (gamepad2.left_bumper || (gamepad1.left_bumper&& GP1Control)){
             //specimen pivot position
             pivot.specimen();
             pivotChangeCount++;
         } else {
             //assume fine-tune mode and check for lowering slides
-            if (gamepad2.dpad_up || gamepad1.dpad_up) {
+            if (gamepad2.dpad_up || (gamepad1.dpad_up && GP1Control)) {
                 pivot.fineTune(0.4f);
                 pivotChangeCount++;
-            } else if (gamepad2.dpad_down || gamepad1.dpad_down) {
+            } else if (gamepad2.dpad_down || (gamepad1.dpad_down && GP1Control)) {
                 pivot.fineTune(-0.4f);
                 pivotChangeCount++;
             }
         }
 
         //claw
-        if(gamepad2.x || gamepad1.x ){
-            claw.close_claw();
-            operation_type="close";
-            pivotChangeCount++;
-        } else if(gamepad2.y || gamepad1.y ){
-            claw.open_claw();
-            operation_type="open";
-            pivotChangeCount++;
+        if(((gamepad2.x || (gamepad1.x && GP1Control)) != prevClawButton) && gamepad2.x || (gamepad1.x && GP1Control)){
+            if(claw.clawIsOpen()){
+                claw.close_claw();
+            }else{
+                claw.open_claw();
+            }
         }
+        prevClawButton = gamepad2.x || (gamepad1.x && GP1Control);
 
         //elevator
         //hold right trigger or right bumper to raise
