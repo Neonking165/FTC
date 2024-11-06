@@ -23,7 +23,7 @@ public class DeepTeleOp2P extends OpMode {
     private double endTime;
     private double tLowerSlides = 0;
     private boolean prevClawButton = false;
-    private boolean GP1Control = false;
+    private boolean GP1Control = true;
 
     public void init() {
         tankDrive = new RemoteDrive(hardwareMap);
@@ -93,18 +93,20 @@ public class DeepTeleOp2P extends OpMode {
         else{
             //then lower lift
             if(tLowerSlides == 0){
+                if (!gamepad2.x && !(gamepad1.x && GP1Control) && !gamepad2.y && !(gamepad1.y && GP1Control)){
+                    claw.open_claw();
+                }
                 pivot.stow();
-                claw.open_claw();
                 pivot_type="stow";
                 tLowerSlides = time.milliseconds() + 800;
                 pivotChangeCount++;
             }else{
-                if(time.milliseconds() > tLowerSlides){
-                    //claw.close_claw();
+                if(time.milliseconds() > tLowerSlides && tLowerSlides > 1){
+
                     claw.close_claw();
                     lift.lower_lift();
-                    tLowerSlides = -1;
-                    //set to -1 to stop looping and only run pivot stow once
+                    tLowerSlides = 1;
+                    //set to 1 to stop looping and only run pivot stow once
                 }
             }
         }
@@ -115,7 +117,7 @@ public class DeepTeleOp2P extends OpMode {
 
         //pivot
         //left trigger or right trigger is basket, left bumper is specimen, A is intake, B is stow, up/down dpad is fine tune
-        if(gamepad2.b || (gamepad1.b&& GP1Control)){
+        if(gamepad2.b || (gamepad1.b && GP1Control)){
             //stow pivot
             pivot.stow();
             pivot_type="stow";
@@ -142,14 +144,12 @@ public class DeepTeleOp2P extends OpMode {
         }
 
         //claw
-        if(((gamepad2.x || (gamepad1.x && GP1Control)) != prevClawButton) && gamepad2.x || (gamepad1.x && GP1Control)){
-            if(claw.clawIsOpen()){
-                claw.close_claw();
-            }else{
-                claw.open_claw();
-            }
+        if(gamepad2.x || (gamepad1.x && GP1Control)){
+            claw.close_claw();
         }
-        prevClawButton = gamepad2.x || (gamepad1.x && GP1Control);
+        if(gamepad2.y || (gamepad1.y && GP1Control)){
+            claw.open_claw();
+        }
 
         //elevator
         //hold right trigger or right bumper to raise

@@ -14,7 +14,7 @@ public class RemoteDrive {
     private DcMotorEx rightDrive;
 
 
-    private double maximumSpeed = 0.85;//dont put to 1 please, otherwise robot will drift
+    private double maximumSpeed = 1;//dont put to 1 please, otherwise robot will drift
 
     private double leftTargetVelocity;
     private double rightTargetVelocity;
@@ -37,6 +37,7 @@ public class RemoteDrive {
         setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+
 
         Drive(0,0);
     }
@@ -61,8 +62,8 @@ public class RemoteDrive {
         leftVelocity = Range.clip(leftVelocity * maximumSpeed, -maximumSpeed, maximumSpeed);
         rightVelocity = Range.clip(rightVelocity * maximumSpeed, -maximumSpeed, maximumSpeed);
 
-        leftDrive.setVelocity(leftVelocity);
-        rightDrive.setVelocity(rightVelocity);
+        leftDrive.setPower(leftVelocity);
+        rightDrive.setPower(rightVelocity);
 
         leftTargetVelocity = leftVelocity;
         rightTargetVelocity = rightVelocity;
