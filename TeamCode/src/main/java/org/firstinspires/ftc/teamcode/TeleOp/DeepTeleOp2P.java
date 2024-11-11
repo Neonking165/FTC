@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.lift_subsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.claw_subsystem;
 //gamepad 1 driver
 //gamepad 2 subsysems
-@TeleOp(name="DeepTeleOp2P_testing", group="Iterative OpMode")
+@TeleOp(name="DeepTeleOp2P_testing_1.1", group="Iterative OpMode")
 //full robot teleop controlled by two users
 public class DeepTeleOp2P extends OpMode {
 
@@ -157,7 +157,7 @@ public class DeepTeleOp2P extends OpMode {
         telemetry.addData("Status", "Running");
         telemetry.addData("Drive Power", "Left: " + tankDrive.GetLeftVelocity() + "Right: " + tankDrive.GetRightVelocity());
         telemetry.addData("Pivot Position", "Ticks: " + pivot.real_positionticks() + "Step: " + pivot.position());
-        telemetry.addData("testing:",operation_type);
+        telemetry.addData("claw:",operation_type);
         telemetry.addData("pivot_type:",pivot_type);
         telemetry.addData("Errors:",error_type);
         telemetry.addData("PivotChangesThisFrame:", pivotChangeCount);
