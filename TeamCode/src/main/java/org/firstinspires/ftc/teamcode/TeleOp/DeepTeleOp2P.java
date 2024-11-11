@@ -1,13 +1,14 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+//Terrible code do not use
 
+package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.Drive.RemoteDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.pivot_subsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.lift_subsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.claw_subsystem;
+
 //gamepad 1 driver
 //gamepad 2 subsysems
 @TeleOp(name="DeepTeleOp2P_testing_1.1", group="Iterative OpMode")
