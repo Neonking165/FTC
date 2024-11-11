@@ -1,19 +1,21 @@
 //Terrible code do not use
 
 package org.firstinspires.ftc.teamcode.TeleOp;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.Drive.RemoteDrive;
-import org.firstinspires.ftc.teamcode.Subsystems.pivot_subsystem;
-import org.firstinspires.ftc.teamcode.Subsystems.lift_subsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.claw_subsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.lift_subsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.pivot_subsystem;
 
 //gamepad 1 driver
 //gamepad 2 subsysems
-@TeleOp(name="DeepTeleOp2P_testing_1.2", group="Iterative OpMode")
+@TeleOp(name="New_teleop_1.0", group="Iterative OpMode")
 //full robot teleop controlled by two users
-public class DeepTeleOp2P extends OpMode {
+public class DeepTeleOp2P_split extends OpMode {
 
     private RemoteDrive tankDrive;
     private pivot_subsystem pivot;
@@ -78,83 +80,59 @@ public class DeepTeleOp2P extends OpMode {
         double x = gamepad1.right_stick_x;
         double y = -gamepad1.left_stick_y;
 
-        if(gamepad1.right_bumper || gamepad2.right_bumper) {
+        if(gamepad1.right_bumper) {
             tankDrive.Drive((x/4),(y/4));
         }
         else{
             tankDrive.Drive((x),(y));
         }
 
-        //lift
-        if(gamepad2.right_trigger > 0.6 || (gamepad1.right_trigger > 0.6 && GP1Control)){
+
+
+
+        if(gamepad1.left_trigger>0.6 || gamepad2.left_trigger>0.6) {
             lift.raise_lift();
-            pivot.basket();
-            tLowerSlides = 0;
-            pivotChangeCount++;
+
         }
         else{
-            //then lower lift
-            if(tLowerSlides == 0){
-                if (!gamepad2.x && !(gamepad1.x && GP1Control) && !gamepad2.y && !(gamepad1.y && GP1Control)){
-                    claw.open_claw();
-                }
-                pivot.stow();
-                pivot_type="stow";
-                tLowerSlides = time.milliseconds() + 800;
-                pivotChangeCount++;
-            }else{
-                if(time.milliseconds() > tLowerSlides && tLowerSlides > 1){
-
-                    claw.close_claw();
-                    lift.lower_lift();
-                    tLowerSlides = 1;
-                    //set to 1 to stop looping and only run pivot stow once
-                }
-            }
-        }
-        if(gamepad2.right_bumper|| (gamepad1.right_bumper && GP1Control)){
-            lift.raise_lift();
+            tankDrive.Drive((x),(y));
         }
 
-
-        //pivot
-        //left trigger or right trigger is basket, left bumper is specimen, A is intake, B is stow, up/down dpad is fine tune
-        if(gamepad2.b || (gamepad1.b && GP1Control)){
-            //stow pivot
-            pivot.stow();
-            pivot_type="stow";
+        if(gamepad1.y || gamepad2.y) {
             claw.close_claw();
             operation_type="close";
-            pivotChangeCount++;
-        } else if (gamepad2.left_trigger > 0.6 || (gamepad1.left_trigger > 0.6 && GP1Control)) {
-            //intake pivot position
-            pivot.intake();
-            pivotChangeCount++;
-        } else if (gamepad2.left_bumper || (gamepad1.left_bumper&& GP1Control)){
-            //specimen pivot position
-            pivot.specimen();
-            pivotChangeCount++;
-        } else {
-            //assume fine-tune mode and check for lowering slides
-            if (gamepad2.dpad_up || (gamepad1.dpad_up && GP1Control)) {
-                pivot.fineTune(0.4f);
-                pivotChangeCount++;
-            } else if (gamepad2.dpad_down || (gamepad1.dpad_down && GP1Control)) {
-                pivot.fineTune(-0.4f);
-                pivotChangeCount++;
-            }
-        }
 
-        //claw
-        if(gamepad2.x || (gamepad1.x && GP1Control)){
-            claw.close_claw();
         }
-        if(gamepad2.y || (gamepad1.y && GP1Control)){
+        if(gamepad1.x || gamepad2.x) {
             claw.open_claw();
+            operation_type="open";
+
         }
 
-        //elevator
-        //hold right trigger or right bumper to raise
+
+        if(gamepad1.right_trigger>0.6 || gamepad2.right_trigger>0.6) {
+            pivot.basket();
+            pivot_type="basket";
+        }
+        else if(gamepad1.right_bumper){
+            pivot.intake();
+            pivot_type="intake";
+
+        }
+        else if(gamepad1.left_bumper){
+            pivot.specimen();
+            pivot_type="specimen";
+        }
+
+        else{
+            pivot.stow();
+            pivot_type="stow";
+        }
+
+
+
+
+
 
         telemetry.addData("Status", "Running");
         telemetry.addData("Drive Power", "Left: " + tankDrive.GetLeftVelocity() + "Right: " + tankDrive.GetRightVelocity());
