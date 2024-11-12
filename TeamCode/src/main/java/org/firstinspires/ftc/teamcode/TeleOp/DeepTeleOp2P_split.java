@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Drive.RemoteDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.claw_subsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.lift_subsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.pivot_subsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.text_write_subsystem;
 
 //gamepad 1 driver
 //gamepad 2 subsysems
@@ -22,6 +23,7 @@ public class DeepTeleOp2P_split extends OpMode {
     private claw_subsystem claw;
     private lift_subsystem lift;
     private ElapsedTime time;
+    private text_write_subsystem tel_up;
     private double startTime;
     private double endTime;
     private double tLowerSlides = 0;
@@ -69,8 +71,8 @@ public class DeepTeleOp2P_split extends OpMode {
     @Override
     public void loop() {
         int pivotChangeCount = 0;
-        endTime =  time.milliseconds();
-        double frequency = 1 /  ((endTime - startTime) / 1000);
+        endTime = time.milliseconds();
+        double frequency = 1 / ((endTime - startTime) / 1000);
         telemetry.addData("Frequency", frequency + "Hz");
 
         startTime = time.milliseconds();
@@ -80,12 +82,12 @@ public class DeepTeleOp2P_split extends OpMode {
         double x = gamepad1.right_stick_x;
         double y = -gamepad1.left_stick_y;
 
-        if(gamepad1.right_bumper) {
-            tankDrive.Drive((x/4),(y/4));
+        if (gamepad1.right_bumper) {
+            tankDrive.Drive((x / 4), (y / 4));
+        } else {
+            tankDrive.Drive((x), (y));
         }
-        else{
-            tankDrive.Drive((x),(y));
-        }
+
 
 
 
@@ -128,6 +130,11 @@ public class DeepTeleOp2P_split extends OpMode {
             pivot.stow();
             pivot_type="stow";
         }
+
+
+
+        text_write_subsystem.writeToFile("gamepad_telementry_data.txt", "testing123");
+
 
 
 
