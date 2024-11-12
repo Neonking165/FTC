@@ -103,7 +103,7 @@ public class DeepTeleOp2P extends OpMode {
                 tLowerSlides = time.milliseconds() + 800;
                 pivotChangeCount++;
             }else{
-                if(time.milliseconds() > tLowerSlides && tLowerSlides > 1){
+                if(time.milliseconds() > tLowerSlides && tLowerSlides > 2){
 
                     claw.close_claw();
                     lift.lower_lift();
@@ -137,10 +137,10 @@ public class DeepTeleOp2P extends OpMode {
         } else {
             //assume fine-tune mode and check for lowering slides
             if (gamepad2.dpad_up || (gamepad1.dpad_up && GP1Control)) {
-                pivot.fineTune(0.4f);
+                pivot.fineTune(1);
                 pivotChangeCount++;
             } else if (gamepad2.dpad_down || (gamepad1.dpad_down && GP1Control)) {
-                pivot.fineTune(-0.4f);
+                pivot.fineTune(-1);
                 pivotChangeCount++;
             }
         }
