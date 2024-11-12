@@ -93,11 +93,15 @@ public class pivot_subsystem {
         }
     }
 
-    public void fineTune(float speed){
+    public void fineTune(int speed){
         PivotPosition = 4;
         PivotTicksPosition = real_positionticks();
         pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        pivotMotor.setTargetPosition(PivotTicksPosition + 500);
+        if(PivotTicksPosition - (100 * speed)  < 0) {
+            pivotMotor.setTargetPosition(PivotTicksPosition - (100 * speed));
+        }else{
+            pivotMotor.setTargetPosition(0);
+        }
     }
 
 }
