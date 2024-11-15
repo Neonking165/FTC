@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.text_write_subsystem;
 
 //gamepad 1 driver
 //gamepad 2 subsysems
-@TeleOp(name="New_teleop_1.0", group="Iterative OpMode")
+@TeleOp(name="New_teleop_1.1", group="Iterative OpMode")
 //full robot teleop controlled by two users
 public class DeepTeleOp2P_split extends OpMode {
 
@@ -82,7 +82,7 @@ public class DeepTeleOp2P_split extends OpMode {
         double x = gamepad1.right_stick_x;
         double y = -gamepad1.left_stick_y;
 
-        if (gamepad1.right_bumper) {
+        if (gamepad1.right_trigger>0.6) {
             tankDrive.Drive((x / 4), (y / 4));
         } else {
             tankDrive.Drive((x), (y));
@@ -112,7 +112,7 @@ public class DeepTeleOp2P_split extends OpMode {
         }
 
 
-        if(gamepad1.right_trigger>0.6 || gamepad2.right_trigger>0.6) {
+        if(gamepad1.b|| gamepad2.b) {
             pivot.basket();
             pivot_type="basket";
         }

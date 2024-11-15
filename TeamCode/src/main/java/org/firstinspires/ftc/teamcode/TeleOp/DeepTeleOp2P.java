@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.claw_subsystem;
 
 //gamepad 1 driver
 //gamepad 2 subsysems
-@TeleOp(name="DeepTeleOp2P_testing_1.2", group="Iterative OpMode")
+@TeleOp(name="DeepTeleOp2P_testing_1.4", group="Iterative OpMode")
 //full robot teleop controlled by two users
 public class DeepTeleOp2P extends OpMode {
 
@@ -112,9 +112,7 @@ public class DeepTeleOp2P extends OpMode {
                 }
             }
         }
-        if(gamepad2.right_bumper|| (gamepad1.right_bumper && GP1Control)){
-            lift.raise_lift();
-        }
+
 
 
         //pivot
